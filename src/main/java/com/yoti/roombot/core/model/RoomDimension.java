@@ -21,7 +21,7 @@ public class RoomDimension {
     this.height=y;
   }
 
-  public void isValid(final List<Integer> dimensions){
+  public void checkValidity(final List<Integer> dimensions){
     if(dimensions.get(0) <=0 || dimensions.get(1) <=0) {
       throw new InvalidCoordinatesException();
     }

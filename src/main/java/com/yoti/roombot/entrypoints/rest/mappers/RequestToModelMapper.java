@@ -1,10 +1,11 @@
 package com.yoti.roombot.entrypoints.rest.mappers;
 
 import com.yoti.roombot.core.model.BotDirection;
-import com.yoti.roombot.core.model.BotInitializer;
+import com.yoti.roombot.core.model.RoomBotInitialState;
 import com.yoti.roombot.core.model.Point;
 import com.yoti.roombot.core.model.RoomDimension;
 import com.yoti.roombot.entrypoints.exceptions.InvalidCoordinatesException;
+import com.yoti.roombot.entrypoints.exceptions.InvalidDirectionException;
 import com.yoti.roombot.entrypoints.exceptions.InvalidNumberOfItemsExeption;
 import com.yoti.roombot.entrypoints.exceptions.NullOrEmptyCoordinatesException;
 import com.yoti.roombot.entrypoints.rest.requests.CleanRequest;
@@ -21,11 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class RequestToModelMapper {
 
-  public RequestToModelMapper() {
-  }
-
-  public BotInitializer map(final CleanRequest cleanRequest){
-    return BotInitializer.builder()
+  public RoomBotInitialState map(final CleanRequest cleanRequest){
+    return RoomBotInitialState.builder()
         .room(validateRoomCoords(cleanRequest.getRoomSize()))
         .bot(validateBotStartingCoords(cleanRequest.getCoords(), cleanRequest.getRoomSize()))
         .patches(validatePatchesCoords(cleanRequest.getPatches(), cleanRequest.getRoomSize()))
@@ -43,7 +41,7 @@ public class RequestToModelMapper {
     }
 
     final RoomDimension roomDimension = new RoomDimension(roomCoordinates.get(0), roomCoordinates.get(1));
-    roomDimension.isValid(roomCoordinates);
+    roomDimension.checkValidity(roomCoordinates);
     return roomDimension;
   }
 
@@ -92,8 +90,12 @@ public class RequestToModelMapper {
     final char[] directionArray = directions.toCharArray();
 
     final List<BotDirection> botDir = new ArrayList<>();
-    for (final char c : directionArray) {
-      botDir.add(BotDirection.byCode(c));
+    for (final char directionChar : directionArray) {
+      try{
+      botDir.add(BotDirection.byCode(directionChar));}
+      catch (final IllegalArgumentException ex){
+        throw new InvalidDirectionException(directionChar, ex);
+      }
     }
     return botDir;
   }

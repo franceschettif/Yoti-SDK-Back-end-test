@@ -2,7 +2,7 @@ package com.yoti.roombot.dataproviders.database.repositories;
 
 import com.google.gson.Gson;
 
-import com.yoti.roombot.core.model.BotInitializer;
+import com.yoti.roombot.core.model.RoomBotInitialState;
 import com.yoti.roombot.core.usecases.PersistRequest;
 import com.yoti.roombot.dataproviders.database.entitites.InputEntity;
 import com.yoti.roombot.entrypoints.rest.responses.CleanResponse;
@@ -23,7 +23,7 @@ public class PersistRequestProvider implements PersistRequest {
 
   @Override
   @Transactional
-  public void persistRequest(final BotInitializer input, final CleanResponse output) {
+  public void persistRequest(final RoomBotInitialState input, final CleanResponse output) {
 
     repository.save(InputEntity.builder()
                         .requestTime(LocalDateTime.now())

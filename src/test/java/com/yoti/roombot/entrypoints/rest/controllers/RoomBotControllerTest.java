@@ -1,9 +1,11 @@
 package com.yoti.roombot.entrypoints.rest.controllers;
 
+import com.yoti.roombot.entity.ErrorResponse;
 import com.yoti.roombot.entrypoints.rest.requests.CleanRequest;
 import com.yoti.roombot.entrypoints.rest.responses.CleanResponse;
 import com.yoti.roombot.RoomBotApplication;
 
+import org.apache.tomcat.jni.Error;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,15 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+import lombok.Data;
+
 @SpringBootTest(classes = RoomBotApplication.class, webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RoomBotControllerTest {
   @Autowired
   private TestRestTemplate restTemplate;
+
+
+
 
   @Test
   void testWithProvidedInput() {
@@ -69,13 +76,12 @@ class RoomBotControllerTest {
         List.of(3, 4)
     ));
     cleanRequest.setInstructions("NENENE");
-    final ResponseEntity<CleanResponse> outputDetails = restTemplate.postForEntity("/hoover/api/clean-the-room", cleanRequest, CleanResponse.class);
+    final ResponseEntity<ErrorResponse> outputDetails = restTemplate.postForEntity("/hoover/api/clean-the-room", cleanRequest, ErrorResponse.class);
     Assertions.assertThat(outputDetails.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
-    final CleanResponse body = outputDetails.getBody();
+    final ErrorResponse body = outputDetails.getBody();
 
     Assertions.assertThat(body).isNotNull();
-    Assertions.assertThat(body.getPatches()).isEqualTo(0);
-    Assertions.assertThat(body.getCoords()).isNull();
+    Assertions.assertThat(body.getDetail()).isEqualTo("Coordinates were either negative or out of bounds the perimeter of the room.");
   }
 
   @Test
@@ -89,12 +95,11 @@ class RoomBotControllerTest {
         List.of(2, 3)
     ));
     cleanRequest.setInstructions("NNESEESWNWW");
-    final ResponseEntity<CleanResponse> outputDetails = restTemplate.postForEntity("/hoover/api/clean-the-room", cleanRequest, CleanResponse.class);
+    final ResponseEntity<ErrorResponse> outputDetails = restTemplate.postForEntity("/hoover/api/clean-the-room", cleanRequest, ErrorResponse.class);
     Assertions.assertThat(outputDetails.getStatusCode()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY);
-    final CleanResponse body = outputDetails.getBody();
+    final ErrorResponse body = outputDetails.getBody();
 
     Assertions.assertThat(body).isNotNull();
-    Assertions.assertThat(body.getPatches()).isEqualTo(0);
-    Assertions.assertThat(body.getCoords()).isNull();
+    Assertions.assertThat(body.getDetail()).isEqualTo("No coordinates were given as input.");
   }
 }

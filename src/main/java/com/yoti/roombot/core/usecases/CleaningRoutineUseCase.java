@@ -1,7 +1,7 @@
 package com.yoti.roombot.core.usecases;
 
 import com.yoti.roombot.core.model.BotDirection;
-import com.yoti.roombot.core.model.BotInitializer;
+import com.yoti.roombot.core.model.RoomBotInitialState;
 import com.yoti.roombot.core.model.Room;
 import com.yoti.roombot.core.model.Bot;
 import com.yoti.roombot.core.model.Point;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class CleaningRoutineUseCase {
   private final PersistRequest persistRequest;
 
-  public CleanResponse doClean(final BotInitializer inputDetails) {
+  public CleanResponse doClean(final RoomBotInitialState inputDetails) {
 
     // create room
     final Room room = new Room(inputDetails.getRoom().getWidth(), inputDetails.getRoom().getHeight());

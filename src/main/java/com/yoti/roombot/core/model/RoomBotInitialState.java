@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class BotInitializer {
+public class RoomBotInitialState {
 
   private RoomDimension room;
   private Point bot;

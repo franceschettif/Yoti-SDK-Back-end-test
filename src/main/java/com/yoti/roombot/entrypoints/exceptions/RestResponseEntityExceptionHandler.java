@@ -19,7 +19,8 @@ public class RestResponseEntityExceptionHandler
                       IllegalStateException.class,
                       InvalidCoordinatesException.class,
                       NullOrEmptyCoordinatesException.class,
-                     InvalidCoordinatesException.class})
+                     InvalidCoordinatesException.class,
+                     InvalidDirectionException.class})
   public ResponseEntity<Object> handleConflict(
       final RuntimeException ex, final WebRequest request
   ) {
@@ -29,7 +30,7 @@ public class RestResponseEntityExceptionHandler
         .body(Problem
                   .builder()
                   .withTitle("Validation")
-                  .with("errors", ex.getMessage())
+                  .withDetail(ex.getMessage())
                   .withStatus(Status.UNPROCESSABLE_ENTITY)
                   .build());
   }

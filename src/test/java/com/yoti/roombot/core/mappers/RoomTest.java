@@ -18,7 +18,7 @@ class RoomTest {
   }
 
   @Test
-  void shouldReturnFalseIfTileIsNotDirty(){
+  void shouldReturnFalseWhenTileIsNotDirty(){
     underTest.applyDirtPatch(new Point(1, 1));
     Assertions.assertThat(underTest.isTileDirty(new Point(1, 2))).isFalse();
   }

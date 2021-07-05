@@ -1,6 +1,7 @@
 package com.yoti.roombot.entrypoints.rest.mappers;
 
 import com.yoti.roombot.entrypoints.exceptions.InvalidCoordinatesException;
+import com.yoti.roombot.entrypoints.exceptions.InvalidDirectionException;
 import com.yoti.roombot.entrypoints.exceptions.InvalidNumberOfItemsExeption;
 import com.yoti.roombot.entrypoints.exceptions.NullOrEmptyCoordinatesException;
 import com.yoti.roombot.entrypoints.rest.requests.CleanRequest;
@@ -157,12 +158,15 @@ class RequestToModelMapperTest {
         .hasMessage("No coordinates were given as input.");
   }
 
-  private static Stream<Arguments> emptySet(){
-    return Stream.of(
-        Arguments.of(List.of(List.of(1,2), List.of(), List.of(2,2)))
-    );
+  @Test
+  void shouldThrowInvalidDirectionExceptionWhenDirectionIsNotValid() {
+    Assertions.assertThatThrownBy(() -> underTest.map(
+        CleanRequest.builder().roomSize(List.of(2, 2)).coords(List.of(1, 1)).patches(List.of(List.of(0, 0))).instructions("K").build()))
+        .isInstanceOf(InvalidDirectionException.class)
+        .hasMessage("Invalid direction provided: K");
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> nullSet(){
     final ArrayList<List<Integer>> list = new ArrayList<>();
     list.add(List.of(1,2));
@@ -173,6 +177,7 @@ class RequestToModelMapperTest {
     );
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> invalidSizeSet(){
     return Stream.of(
         Arguments.of(List.of(List.of(1,2), List.of(2,2,3))),
@@ -180,6 +185,7 @@ class RequestToModelMapperTest {
     );
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> invalidCoordsSet(){
     return Stream.of(
         Arguments.of(List.of(List.of(1,2), List.of(3,3))),
@@ -187,6 +193,7 @@ class RequestToModelMapperTest {
     );
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> invalidSize() {
     return Stream.of(
         Arguments.of(List.of(1, 2, 3)),
@@ -194,6 +201,7 @@ class RequestToModelMapperTest {
     );
   }
 
+  @SuppressWarnings("unused")
   private static Stream<Arguments> negativeCoords() {
     return Stream.of(
         Arguments.of(List.of(-1, -5)),

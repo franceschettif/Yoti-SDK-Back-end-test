@@ -30,10 +30,10 @@ public class RoomBotController {
 
   @ApiOperation(value = "cleanRoutine",
                 notes = "The goal of the service is to take the room dimensions, the locations of the dirt patches, the hoover location and the driving instructions as input and to then output the following:\n"
-                        + "\n"
+                        + '\n'
                         + "*  The final hoover position (X, Y)\n"
                         + "*  The number of patches of dirt the robot cleaned up\n"
-                        + "\n"
+                        + '\n'
                         + "The service must persist every input and output to a database.")
   @ApiResponses( {
                      @ApiResponse(code = 200, message = "Success"),

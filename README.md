@@ -3,7 +3,7 @@
 ### Overview
 This service navigates an imaginary robotic hoover through an equally imaginary room.
 
-As input it will take:
+As input, it will take:
 * Room dimensions
 * Locations of the dirt patches
 * Hoover location

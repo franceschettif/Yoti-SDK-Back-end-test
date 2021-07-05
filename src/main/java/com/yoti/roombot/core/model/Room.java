@@ -1,7 +1,5 @@
 package com.yoti.roombot.core.model;
 
-import com.yoti.roombot.core.model.RoomTile;
-import com.yoti.roombot.core.model.Point;
 import com.yoti.roombot.entrypoints.exceptions.InvalidCoordinatesException;
 
 import lombok.SneakyThrows;
