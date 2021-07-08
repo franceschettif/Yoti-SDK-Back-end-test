@@ -1,6 +1,5 @@
 package com.yoti.roombot.entrypoints.exceptions;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,9 @@ public class RestResponseEntityExceptionHandler
   @ExceptionHandler( {IllegalArgumentException.class,
                       IllegalStateException.class,
                       InvalidCoordinatesException.class,
+                      InvalidNumberOfItemsExeption.class,
                       NullOrEmptyCoordinatesException.class,
-                     InvalidCoordinatesException.class,
-                     InvalidDirectionException.class})
+                      InvalidDirectionException.class})
   public ResponseEntity<Object> handleConflict(
       final RuntimeException ex, final WebRequest request
   ) {
