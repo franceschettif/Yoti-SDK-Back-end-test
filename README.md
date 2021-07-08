@@ -32,6 +32,7 @@ OUTPUT: CleanResponse class
 ### How to test the API
 
 Via Swagger, it's possible to utilize a browser to interact with the REST API created:
+
 Swagger url: http://localhost:8080/swagger-ui.html
 
 Do the following:
